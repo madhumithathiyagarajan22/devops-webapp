@@ -19,5 +19,9 @@ jobs:
       - name: Simulate Build Process
         run: echo "Build successful 🚀"
 
-      - name: Show Completion Message
-        run: echo "CI Pipeline executed successfully!"
+      - name: Send Slack Notification
+        if: always()
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data "{\"text\":\"🚀 GitHub Actions Build Status: ${{ job.status }} for devops-webapp repository.\"}" \
+          ${{ secrets.SLACK_WEBHOOK }}
